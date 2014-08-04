@@ -12,7 +12,7 @@ $this->menu=array(
 );
 ?>
 
-<h1>Pages</h1>
+<h1>Справочная</h1>
 
 <?php foreach($basePages as $basePage): ?>
 	<div class="page base">

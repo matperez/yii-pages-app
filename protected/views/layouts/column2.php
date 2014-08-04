@@ -17,6 +17,18 @@
 		));
 		$this->endWidget();
 	?>
+	<?php
+	if (isset($this->pages)) {
+		$this->beginWidget('zii.widgets.CPortlet', array(
+			'title'=>'Pages',
+		));
+		$this->widget('zii.widgets.CMenu', array(
+			'items'=>$this->pages,
+			'htmlOptions'=>array('class'=>'pages'),
+		));
+		$this->endWidget();
+	}
+	?>
 	</div><!-- sidebar -->
 </div>
 <?php $this->endContent(); ?>

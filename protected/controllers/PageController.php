@@ -8,6 +8,11 @@ class PageController extends Controller
 	 */
 	public $layout='//layouts/column2';
 
+	/**
+	 * @var array
+	 */
+	public $pages;
+
 	public function actions()
 	{
 		return array(
@@ -71,6 +76,7 @@ class PageController extends Controller
 			$breadcrumbs[$parent->title] = $this->createUrl('page/viewPage', ['url' => $parent->url]);
 		}
 		array_push($breadcrumbs, $model->title);
+		$this->pages = Pages::getMenuItems($model);
 		$this->pageTitle = $model->title;
 		$this->render('view',array(
 			'breadcrumbs' => $breadcrumbs,
@@ -84,8 +90,10 @@ class PageController extends Controller
 	 */
 	public function actionView($id)
 	{
+		$model = $this->loadModel($id);
+		$this->pages = Pages::getMenuItems($model);
 		$this->render('view',array(
-			'model'=>$this->loadModel($id),
+			'model'=>$model,
 		));
 	}
 
@@ -165,6 +173,7 @@ class PageController extends Controller
 		$baseCriteria = new CDbCriteria();
 		$baseCriteria->compare('active', 1);
 		$basePages = Page::model()->getRoots($baseCriteria);
+		$this->pages = Pages::getMenuItems();
 		$this->render('index',array(
 			'basePages' => $basePages,
 		));

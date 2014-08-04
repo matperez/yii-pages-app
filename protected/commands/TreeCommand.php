@@ -9,10 +9,7 @@
 
 class TreeCommand extends CConsoleCommand {
 	public function actionIndex() {
-		$root = Page::model()->findByPk(6);
-		/** @var Page $root */
-		$root->loadTree();
-		$children = $root->getChildren();
-		var_dump($root->id, $root->title, $root->getChildren());
+		$items = Pages::getMenuItems();
+		CVarDumper::dump($items);
 	}
 } 

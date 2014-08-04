@@ -61,10 +61,21 @@ class PageController extends Controller
 	}
 
 	/**
-	 * @param string $url
+	 * @param string $url0
+	 * @param string $url1
+	 * @param string $url2
 	 * @throws CHttpException
 	 */
-	public function actionViewPage($url) {
+	public function actionViewPage($url0, $url1 = null, $url2 = null) {
+		if ($url2) {
+			$url = $url2;
+		} elseif ($url1) {
+			$url = $url1;
+		} elseif ($url0) {
+			$url = ($url0);
+		} else {
+			throw new CHttpException(400,'Invalid request.');
+		}
 		$model = Page::model()->findByUrl($url);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
@@ -102,7 +113,6 @@ class PageController extends Controller
 		$this->pages = Pages::getMenuItems($model);
 		$this->pageTitle = $model->title;
 		$this->render('view',array(
-			'breadcrumbs' => $breadcrumbs,
 			'model'=>$model,
 		));
 	}

@@ -38,9 +38,12 @@ return array(
 		// uncomment the following to enable URLs in path-format
 		'urlManager'=>array(
 			'urlFormat'=>'path',
+			'urlSuffix' => '.php',
 			'rules'=>array(
 				'info' => 'page/index',
-				'info/<url:\w+>' => 'page/viewPage/<url>',
+				'info/<url0:[\w\d-]+>/<url1:[\w\d-]+>/<url2:[\w\d-]+>/' => 'page/viewPage',
+				'info/<url0:[\w\d-]+>/<url1:[\w\d-]+>' => 'page/viewPage',
+				'info/<url0:[\w\d-]+>' => 'page/viewPage',
 				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
 				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',

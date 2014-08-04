@@ -79,18 +79,10 @@ class PageController extends Controller
 		$model = Page::model()->findByUrl($url);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
-		$parents = $model->getParents();
-		$breadcrumbs = [
-			'Pages'=>array('index'),
-		];
-		foreach($parents as $parent) {
-			$breadcrumbs[$parent->title] = $this->createUrl('page/viewPage', ['url' => $parent->url]);
-		}
-		array_push($breadcrumbs, $model->title);
 		$this->pages = Pages::getMenuItems($model);
 		$this->pageTitle = $model->title;
 		$this->render('view',array(
-			'breadcrumbs' => $breadcrumbs,
+			'breadcrumbs' => Pages::getBreadcrumbs($model),
 			'model'=>$model,
 		));
 	}
@@ -102,17 +94,10 @@ class PageController extends Controller
 	public function actionView($id)
 	{
 		$model = $this->loadModel($id);
-		$breadcrumbs = [
-			'Pages'=>array('index'),
-		];
-		$parents = $model->getParents();
-		foreach($parents as $parent) {
-			$breadcrumbs[$parent->title] = $this->createUrl('page/viewPage', ['url' => $parent->url]);
-		}
-		array_push($breadcrumbs, $model->title);
 		$this->pages = Pages::getMenuItems($model);
 		$this->pageTitle = $model->title;
 		$this->render('view',array(
+			'breadcrumbs' => Pages::getBreadcrumbs($model),
 			'model'=>$model,
 		));
 	}
@@ -196,6 +181,7 @@ class PageController extends Controller
 		$this->pages = Pages::getMenuItems();
 		$this->render('index',array(
 			'basePages' => $basePages,
+			'breadcrumbs' => Pages::getBreadcrumbs()
 		));
 	}
 

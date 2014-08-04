@@ -9,6 +9,48 @@
 class Pages {
 
 	/**
+	 * Get page url
+	 * @param Page|MaterializedPathTree $model
+	 * @return string
+	 */
+	public static function getUrl($model = null) {
+		if (!$model)
+			return Yii::app()->createUrl('page/index');
+		$parents = $model->getParents();
+		$parents[] = $model;
+		$count = count($parents);
+		$urls = [];
+		for ($i = 0; $i < $count; $i++) {
+			$parent = $parents[$i];
+			$urls['url'.$i] = $parent->url;
+		}
+		$url = Yii::app()->createUrl('page/viewPage', $urls);
+		return $url;
+	}
+
+	/**
+	 * Get page breadcrumbs
+	 * @param Page|MaterializedPathTree $model
+	 * @return array
+	 */
+	public static function getBreadcrumbs($model = null) {
+		$breadcrumbs = [
+			'Справочная'=>array('index'),
+		];
+		if (!$model) {
+			return $breadcrumbs;
+		}
+		$parents = $model->getParents();
+		foreach($parents as $parent) {
+			/** @var Page|MaterializedPathTree $parent */
+			$breadcrumbs[$parent->title] = self::getUrl($parent);
+		}
+		array_push($breadcrumbs, $model->title);
+		return $breadcrumbs;
+	}
+
+	/**
+	 * Map page to menu item
 	 * @param Page|MaterializedPathTree $item
 	 * @param Page|MaterializedPathTree $model
 	 * @param bool $digDeep
@@ -41,18 +83,24 @@ class Pages {
 	}
 
 	/**
-	 * @param Page|MaterializedPathTree $page
-	 * @param bool $digDeep
+	 * Get pages menu tree
+	 * @param Page|MaterializedPathTree $root - коревой элемент. если указан, выводятся только его элементы
+	 * @param Page|MaterializedPathTree $page - текущая страница
+	 * @param bool $digDeep - если true, меню будет получено до конца безотносительно текущей страницы
 	 * @return array
 	 */
-	public static function getMenuItems($page = null, $digDeep = false) {
+	public static function getMenuItems($page = null, $digDeep = false, $root = null) {
 		$data = [];
-		$roots = Page::model()->getRoots([
-			'condition' => 'active = 1',
-			'order' => 'position'
-		]);
-		foreach($roots as $root) {
+		if ($root && is_object($root)) {
 			$data[] = self::getData($root, $page, $digDeep);
+		} else {
+			$roots = Page::model()->getRoots([
+				'condition' => 'active = 1',
+				'order' => 'position'
+			]);
+			foreach($roots as $root) {
+				$data[] = self::getData($root, $page, $digDeep);
+			}
 		}
 		return $data;
 	}

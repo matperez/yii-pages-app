@@ -3,7 +3,7 @@
 /* @var $dataProvider CActiveDataProvider */
 
 $this->breadcrumbs=array(
-	'Pages',
+	'Справочная',
 );
 
 $this->menu=array(
@@ -14,9 +14,12 @@ $this->menu=array(
 
 <h1>Справочная</h1>
 
-<?php
-$this->widget('zii.widgets.CMenu', array(
-	'items'=>Pages::getMenuItems(null, true),
-	'htmlOptions'=>array('class'=>'pages'),
-));
-?>
+
+<?php foreach($basePages as $root): ?>
+	<?php
+	$this->widget('zii.widgets.CMenu', array(
+		'items'=>Pages::getMenuItems(null, true, $root),
+		'htmlOptions'=>array('class'=>'root'),
+	));
+	?>
+<?php endforeach; ?>

@@ -83,6 +83,16 @@ class Pages {
 	}
 
 	/**
+	 * Get menu items from $root node except them self
+	 * @param Page|MaterializedPathTree $root
+	 * @return array
+	 */
+	public static function getMenuItemsFromRoot($root) {
+		$items = self::getMenuItems(null, true, $root);
+		return isset($items[0]['items']) ? $items[0]['items'] : [];
+	}
+
+	/**
 	 * Get pages menu tree
 	 * @param Page|MaterializedPathTree $root - коревой элемент. если указан, выводятся только его элементы
 	 * @param Page|MaterializedPathTree $page - текущая страница

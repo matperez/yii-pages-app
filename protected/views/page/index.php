@@ -16,9 +16,10 @@ $this->menu=array(
 
 
 <?php foreach($basePages as $root): ?>
+	<h2><?=CHtml::encode($root->title)?></h2>
 	<?php
 	$this->widget('zii.widgets.CMenu', array(
-		'items'=>Pages::getMenuItems(null, true, $root),
+		'items'=> Pages::getMenuItemsFromRoot($root),
 		'htmlOptions'=>array('class'=>'root'),
 	));
 	?>

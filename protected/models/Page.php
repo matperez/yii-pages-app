@@ -143,13 +143,28 @@ class Page extends CActiveRecord
 
 	/**
 	 * @param string $url
+	 * @throws CHttpException
 	 * @return Page
 	 */
 	public function findByUrl($url) {
-		$criteria = new CDbCriteria();
-		$criteria->compare('url', $url);
-		$criteria->compare('active', true);
-		return $this->find($criteria);
+		$query = $this->dbConnection->createCommand()
+			->select('*')
+			->from('pagesLang')
+			->where('l_url = :url', [':url' => $url]);
+		$result = $query->queryRow();
+		if (!$result)
+			throw new CHttpException(404, 'Page not found.');
+		$lang = $result['lang_id'];
+		$languages = Yii::app()->params['translatedLanguages'];
+		if (!$lang || !array_key_exists($lang, $languages))
+			throw new CHttpException(404, 'Page not found.');
+		$model = Page::find('id = :id AND active = 1', [':id' => $result['page_id']]);
+		if (!$model)
+			throw new CHttpException(404, 'Page not found.');
+		// @todo перенести установку языка в отдельный хелпер
+		Yii::app()->setLanguage($lang);
+		Yii::app()->session->add('language', $lang);
+		return $model;
 	}
 
 	public function beforeSave() {

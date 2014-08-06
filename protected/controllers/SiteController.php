@@ -22,6 +22,15 @@ class SiteController extends Controller
 		);
 	}
 
+	public function actionSetLanguage($lang) {
+		$languages = Yii::app()->params['translatedLanguages'];
+		if (!array_key_exists($lang, $languages))
+			throw new CHttpException(400, 'Unable to set preferred language.');
+		Yii::app()->session->add('language', $lang);
+		Yii::app()->setLanguage($lang);
+		$this->redirect(Yii::app()->request->urlReferrer);
+	}
+
 	/**
 	 * This is the default 'index' action that is invoked
 	 * when an action is not explicitly requested by users.

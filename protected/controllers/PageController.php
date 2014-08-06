@@ -128,6 +128,8 @@ class PageController extends Controller
 		));
 	}
 
+
+
 	/**
 	 * Updates a particular model.
 	 * If update is successful, the browser will be redirected to the 'view' page.
@@ -135,7 +137,7 @@ class PageController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-		$model=$this->loadModel($id);
+		$model=$this->loadModel($id, true);
 		$model->parentId = $model->getParentId();
 
 		// Uncomment the following line if AJAX validation is needed
@@ -204,14 +206,18 @@ class PageController extends Controller
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return Page the loaded model
+	 * @param bool $ml
 	 * @throws CHttpException
+	 * @return Page the loaded model
 	 */
-	public function loadModel($id)
-	{
-		$model=Page::model()->findByPk($id);
-		if($model===null)
-			throw new CHttpException(404,'The requested page does not exist.');
+	public function loadModel($id, $ml=false) {
+		if ($ml) {
+			$model = Page::model()->multilang()->findByPk((int) $id);
+		} else {
+			$model = Page::model()->findByPk((int) $id);
+		}
+		if ($model === null)
+			throw new CHttpException(404, 'The requested post does not exist.');
 		return $model;
 	}
 

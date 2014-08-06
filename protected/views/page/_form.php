@@ -19,23 +19,43 @@
 
 	<?php echo $form->errorSummary($model); ?>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'title'); ?>
-		<?php echo $form->textField($model,'title',array('size'=>60,'maxlength'=>255)); ?>
-		<?php echo $form->error($model,'title'); ?>
-	</div>
+	<fieldset>
+		<legend>ru</legend>
+		<div class="row">
+			<?php echo $form->labelEx($model,'url'); ?>
+			<?php echo $form->textField($model,'url',array('size'=>60,'maxlength'=>255)); ?>
+			<?php echo $form->error($model,'url'); ?>
+		</div>
+		<div class="row">
+			<?php echo $form->labelEx($model,'title'); ?>
+			<?php echo $form->textField($model,'title',array('size'=>60,'maxlength'=>255)); ?>
+			<?php echo $form->error($model,'title'); ?>
+		</div>
+		<div class="row">
+			<?php echo $form->labelEx($model,'content'); ?>
+			<?php echo $form->textArea($model,'content',array('rows'=>6, 'cols'=>50)); ?>
+			<?php echo $form->error($model,'content'); ?>
+		</div>
+	</fieldset>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'url'); ?>
-		<?php echo $form->textField($model,'url',array('size'=>60,'maxlength'=>255)); ?>
-		<?php echo $form->error($model,'url'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'content'); ?>
-		<?php echo $form->textArea($model,'content',array('rows'=>6, 'cols'=>50)); ?>
-		<?php echo $form->error($model,'content'); ?>
-	</div>
+	<fieldset>
+		<legend>en</legend>
+		<div class="row">
+			<?php echo $form->labelEx($model,'url'); ?>
+			<?php echo $form->textField($model,'url_en',array('size'=>60,'maxlength'=>255)); ?>
+			<?php echo $form->error($model,'url'); ?>
+		</div>
+		<div class="row">
+			<?php echo $form->labelEx($model,'title'); ?>
+			<?php echo $form->textField($model,'title_en',array('size'=>60,'maxlength'=>255)); ?>
+			<?php echo $form->error($model,'title'); ?>
+		</div>
+		<div class="row">
+			<?php echo $form->labelEx($model,'content'); ?>
+			<?php echo $form->textArea($model,'content_en',array('rows'=>6, 'cols'=>50)); ?>
+			<?php echo $form->error($model,'content'); ?>
+		</div>
+	</fieldset>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'description'); ?>

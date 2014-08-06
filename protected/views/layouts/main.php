@@ -23,13 +23,26 @@
 <div class="container" id="page">
 
 	<div id="header">
-		<div id="logo"><?php echo CHtml::encode(Yii::app()->name); ?></div>
+		<div class="container">
+			<div class="span-12">
+				<div id="logo"><?php echo CHtml::encode(Yii::app()->name); ?></div>
+			</div>
+			<div class="span-11 last languages">
+				<div class="right">
+					<?php foreach(Yii::app()->params['translatedLanguages'] as $key => $lang) : ?>
+						<?= $key == Yii::app()->getLanguage() ? CHtml::encode($lang) : CHtml::link($lang, ['site/setLanguage', 'lang' => $key]); ?>
+					<?php endforeach ?>
+				</div>
+			</div>
+		</div>
+
 	</div><!-- header -->
 
 	<div id="mainmenu">
 		<?php $this->widget('zii.widgets.CMenu',array(
 			'items'=>array(
-				array('label'=>'Home', 'url'=>array('/site/index')),
+				array('label'=>Yii::t('app', 'Home'), 'url'=>array('/site/index')),
+				array('label'=>Yii::t('app', 'Info'), 'url'=>array('page/index')),
 				array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),
 				array('label'=>'Contact', 'url'=>array('/site/contact')),
 				array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),

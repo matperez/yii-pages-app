@@ -17,6 +17,7 @@
  * @property integer $level
  * @property bool $hasChildren
  * @property Page[] $children
+ * @property MultilingualBehavior $ml
  */
 class Page extends CActiveRecord
 {
@@ -36,9 +37,29 @@ class Page extends CActiveRecord
 	public function behaviors() {
 		return [
 			'MaterializedPath' => [
-				'class' => 'ext.behaviors.MaterializedPathTree'
-			]
+				'class' => 'ext.behaviors.MaterializedPathTree',
+			],
+			'ml' => array(
+				'class' => 'ext.behaviors.MultilingualBehavior',
+				'langTableName' => 'pagesLang',
+				'langForeignKey' => 'page_id',
+				'localizedAttributes' => array('title', 'content', 'url'), //attributes of the model to be translated
+				//'localizedPrefix' => 'l_',
+				'languages' => Yii::app()->params['translatedLanguages'], // array of your translated languages. Example : array('fr' => 'Français', 'en' => 'English')
+				'defaultLanguage' => Yii::app()->params['defaultLanguage'], //your main language. Example : 'fr'
+				//'createScenario' => 'insert',
+				//'localizedRelation' => 'i18nPost',
+				//'multilangRelation' => 'multilangPost',
+				//'forceOverwrite' => false,
+				//'forceDelete' => true,
+				//'dynamicLangClass' => true, //Set to true if you don't want to create a 'PostLang.php' in your models folder
+			),
 		];
+	}
+
+	public function defaultScope()
+	{
+		return $this->ml->localizedCriteria();
 	}
 
 	/**

@@ -113,7 +113,8 @@ class MaterializedPathTree extends CBehavior {
 					'position' => new CDbExpression('position' . ($lower ? '+' : '-') . 1)
 				), $criteria->condition, $criteria->params);
 			$model->{$this->positionFiled} = $position;
-			$model->save();
+			// @todo выяснить почему не проходит валидация, при использовании MultilingualBehavior
+			$model->save(false);
 		} else {
 			$criteria = new CDbCriteria();
 			$criteria
@@ -205,7 +206,8 @@ class MaterializedPathTree extends CBehavior {
 			));
 			$model->{$this->positionFiled} = $rootsCount ? $rootsCount + ($new ? 0 : 1) : 0;
 		}
-		$model->save();
+		// @todo выяснить почему не проходит валидация, при использовании MultilingualBehavior
+		$model->save(false);
 		$this->_children = array();
 		foreach ($children as $child) {
 			/** @var CActiveRecord|MaterializedPathTree $child */

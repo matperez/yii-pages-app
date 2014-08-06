@@ -235,3 +235,7 @@ div.search-form
 .pages > li > ul > li, .pages > li > ul > li > ul > li {
     margin-left: 10px;
 }
+
+.languages {
+    margin-top: 20px;
+}

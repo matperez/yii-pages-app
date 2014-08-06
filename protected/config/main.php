@@ -7,7 +7,9 @@
 // CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'My Web Application',
+	'name'=>'Pages application',
+	'sourceLanguage' => 'en',
+	'language' => 'ru',
 
 	// preloading 'log' component
 	'preload'=>array('log'),
@@ -39,11 +41,14 @@ return array(
 		'urlManager'=>array(
 			'urlFormat'=>'path',
 			'urlSuffix' => '.php',
+			'showScriptName'=>false,
 			'rules'=>array(
+				'' => 'site/index',
 				'info' => 'page/index',
 				'info/<url0:[\w\d-]+>/<url1:[\w\d-]+>/<url2:[\w\d-]+>/' => 'page/viewPage',
 				'info/<url0:[\w\d-]+>/<url1:[\w\d-]+>' => 'page/viewPage',
 				'info/<url0:[\w\d-]+>' => 'page/viewPage',
+				'lang/<lang:\w+>' => 'site/setLanguage',
 				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
 				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
@@ -59,6 +64,7 @@ return array(
 			'username' => 'pages',
 			'password' => 'pages',
 			'charset' => 'utf8',
+			'tablePrefix' => '',
 		),
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
@@ -86,5 +92,10 @@ return array(
 	'params'=>array(
 		// this is used in contact page
 		'adminEmail'=>'webmaster@example.com',
+		'defaultLanguage' => 'ru',
+		'translatedLanguages' => [
+			'ru' => 'Русский',
+			'en' => 'English',
+		]
 	),
 );

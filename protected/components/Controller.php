@@ -25,7 +25,7 @@ class Controller extends CController
 	 * @param CAction $action
 	 * @return bool
 	 */
-	public function beforeAction(CAction $action) {
+	protected function beforeAction($action) {
 		$language = Yii::app()->session->get('language', Yii::app()->params['defaultLanguage']);
 		Yii::app()->setLanguage($language);
 		return parent::beforeAction($action);
